@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import kotlinx.android.synthetic.main.selectable_picture.view.*
 
 
@@ -30,8 +30,8 @@ class MontageListAdapter(
             .load(imageList[position])
             .fitCenter()
             .placeholder(ColorDrawable(Color.TRANSPARENT))
+            .transition(DrawableTransitionOptions.withCrossFade(1000))
             .error(ColorDrawable(Color.TRANSPARENT))
-            .transition(GenericTransitionOptions.with(android.R.anim.fade_in))
             .into(holder.itemView.selectableImageView)
     }
 

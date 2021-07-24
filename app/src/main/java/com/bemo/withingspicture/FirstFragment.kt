@@ -69,8 +69,7 @@ class FirstFragment : Fragment(), PictureView {
         imageListAdapter = ImageListAdapter(requireContext(), pictureViewModel.imagesUrl, ::setValidateVisibility)
         binding.imagesRecyclerView.adapter = imageListAdapter
         binding.validateButton.setOnClickListener {
-            parentFragmentManager.beginTransaction().addToBackStack(null)
-            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, SecondFragment.newInstance(imageListAdapter.getSelectedImages())).commit()
+            parentFragmentManager.beginTransaction().addToBackStack(null).add(R.id.nav_host_fragment_content_main, SecondFragment.newInstance(imageListAdapter.getSelectedImages())).commit()
         }
         binding.contentViewFlipper.displayedChild = 1
     }
