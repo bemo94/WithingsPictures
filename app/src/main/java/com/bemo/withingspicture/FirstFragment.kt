@@ -43,10 +43,13 @@ class FirstFragment : Fragment(), PictureView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imagesRecyclerView.setHasFixedSize(true);
+        binding.imagesRecyclerView.setHasFixedSize(true)
+        binding.contentViewFlipper.visibility = GONE
         binding.searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            binding.contentViewFlipper.visibility = VISIBLE
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyBoard()
+                binding.contentViewFlipper.displayedChild = 0
                 threadManager.onBackgroundThread {
                     controller.getPictures(binding.searchEditText.text.toString())
                 }
@@ -69,12 +72,12 @@ class FirstFragment : Fragment(), PictureView {
         binding.validateButton.setOnClickListener {
             // go to edit picture screen
         }
-        binding.contentViewFlipper.displayedChild = 0
+        binding.contentViewFlipper.displayedChild = 1
     }
 
     override fun displayEmpty() = threadManager.onMainThread {
         binding.validateButton.visibility = GONE
-        binding.contentViewFlipper.displayedChild = 1
+        binding.contentViewFlipper.displayedChild = 2
     }
 
     private fun hideKeyBoard() {
