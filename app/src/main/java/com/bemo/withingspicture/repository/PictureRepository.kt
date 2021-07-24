@@ -8,11 +8,12 @@ import retrofit2.http.Query
 
 
 class PictureRepository {
+
+    private val api = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://pixabay.com/").build().create(PixabayApi::class.java)
+
     suspend fun fetchPictures(query: String): PictureResponse {
-        val builder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://pixabay.com/").build()
-        val api = builder.create(PixabayApi::class.java)
         return api.getImageResults(page = 1, perPage = 40, query = query)
     }
 

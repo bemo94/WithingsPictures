@@ -65,14 +65,16 @@ class FirstFragment : Fragment(), PictureView {
         binding.imagesRecyclerView.layoutManager = layoutManager
         imageListAdapter = ImageListAdapter(requireContext(), pictureViewModel.imagesUrl)
         binding.imagesRecyclerView.adapter = imageListAdapter
-        if (pictureViewModel.imagesUrl.isEmpty()) {
-            binding.validateButton.visibility = GONE
-        } else {
-            binding.validateButton.visibility = VISIBLE
-            binding.validateButton.setOnClickListener {
-                // go to edit picture screen
-            }
+        binding.validateButton.visibility = VISIBLE
+        binding.validateButton.setOnClickListener {
+            // go to edit picture screen
         }
+        binding.contentViewFlipper.displayedChild = 0
+    }
+
+    override fun displayEmpty() = threadManager.onMainThread {
+        binding.validateButton.visibility = GONE
+        binding.contentViewFlipper.displayedChild = 1
     }
 
     private fun hideKeyBoard() {
