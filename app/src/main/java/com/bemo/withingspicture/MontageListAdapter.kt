@@ -6,6 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,9 +33,14 @@ class MontageListAdapter(
             .load(imageList[position])
             .fitCenter()
             .placeholder(ColorDrawable(Color.TRANSPARENT))
-            .transition(DrawableTransitionOptions.withCrossFade(1000))
+            .transition(DrawableTransitionOptions.withCrossFade(7200))
             .error(ColorDrawable(Color.TRANSPARENT))
             .into(holder.itemView.selectableImageView)
+        val anim = RotateAnimation(0f, 350f, 60f, 60f)
+        anim.interpolator = LinearInterpolator()
+        anim.repeatCount = Animation.INFINITE
+        anim.duration = 700
+        holder.itemView.selectableImageView.startAnimation(anim)
     }
 
     override fun getItemCount(): Int {
