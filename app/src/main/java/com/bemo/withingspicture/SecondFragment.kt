@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bemo.withingspicture.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment() {
@@ -28,6 +29,12 @@ class SecondFragment : Fragment() {
         binding.buttonSecond.setOnClickListener {
             parentFragmentManager.beginTransaction().addToBackStack(null)
             parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, FirstFragment()).commit()
+        }
+        binding.imagesRecyclerView.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.imagesRecyclerView.layoutManager = layoutManager
+        arguments?.getStringArrayList("EXTRA_URLS")?.let { urls ->
+            binding.imagesRecyclerView.adapter = MontageListAdapter(requireContext(), urls)
         }
     }
 
