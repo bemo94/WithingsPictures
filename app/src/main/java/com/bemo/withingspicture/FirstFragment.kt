@@ -18,6 +18,7 @@ import com.bemo.withingspicture.infrastructure.PictureView
 import com.bemo.withingspicture.infrastructure.PictureViewModel
 import com.bemo.withingspicture.interactor.PictureInteractor
 import com.bemo.withingspicture.repository.PictureRepository
+import com.bemo.withingspicture.repository.RetrofitService
 
 class FirstFragment : Fragment(), PictureView {
 
@@ -25,9 +26,9 @@ class FirstFragment : Fragment(), PictureView {
     private var threadManager: CoroutineContextSwitcher = CoroutineContextSwitcher.newInstance()
     private lateinit var imageListAdapter: ImageListAdapter
     private val controller = PictureController(
-        PictureInteractor(
-            PictureRepository(),
-            PicturePresenter(this)
+        interactor = PictureInteractor(
+            repository = PictureRepository(RetrofitService()),
+            presenter = PicturePresenter(this)
         )
     )
 

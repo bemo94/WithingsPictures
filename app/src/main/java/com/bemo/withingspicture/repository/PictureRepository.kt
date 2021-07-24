@@ -7,15 +7,19 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-class PictureRepository {
-
-    private val api = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://pixabay.com/").build().create(PixabayApi::class.java)
+class PictureRepository(private val retrofit: RetrofitService) {
 
     suspend fun fetchPictures(query: String): PictureResponse {
-        return api.getImageResults(page = 1, perPage = 40, query = query)
+        return retrofit.getApiService().getImageResults(page = 1, perPage = 40, query = query)
     }
+
+}
+
+class RetrofitService {
+
+    fun getApiService(): PixabayApi = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://pixabay.com/").build().create(PixabayApi::class.java)
 
 }
 
