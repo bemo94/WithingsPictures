@@ -18,7 +18,6 @@ import com.bemo.withingspicture.infrastructure.PictureView
 import com.bemo.withingspicture.infrastructure.PictureViewModel
 import com.bemo.withingspicture.interactor.PictureInteractor
 import com.bemo.withingspicture.repository.PictureRepository
-import kotlinx.android.synthetic.main.content_main.*
 
 class FirstFragment : Fragment(), PictureView {
 
@@ -67,9 +66,8 @@ class FirstFragment : Fragment(), PictureView {
     override fun displayPicture(pictureViewModel: PictureViewModel) = threadManager.onMainThread {
         val layoutManager = GridLayoutManager(requireContext(), 3)
         binding.imagesRecyclerView.layoutManager = layoutManager
-        imageListAdapter = ImageListAdapter(requireContext(), pictureViewModel.imagesUrl)
+        imageListAdapter = ImageListAdapter(requireContext(), pictureViewModel.imagesUrl, ::setValidateVisibility)
         binding.imagesRecyclerView.adapter = imageListAdapter
-        binding.validateButton.visibility = VISIBLE
         binding.validateButton.setOnClickListener {
             parentFragmentManager.beginTransaction().addToBackStack(null)
             parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, SecondFragment.newInstance(imageListAdapter.getSelectedImages())).commit()
@@ -87,5 +85,13 @@ class FirstFragment : Fragment(), PictureView {
             requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         iMm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
         binding.searchEditText.clearFocus()
+    }
+
+    private fun setValidateVisibility(selectedItemsCount: Int) {
+        if (selectedItemsCount >= 2) {
+            binding.validateButton.visibility = VISIBLE
+        } else {
+            binding.validateButton.visibility = GONE
+        }
     }
 }
