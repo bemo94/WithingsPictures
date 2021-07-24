@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.selectable_picture.view.*
 
 class ImageListAdapter(private val context: Context, private val imageList: List<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val selectedImages: MutableList<String> = mutableListOf()
+    private val selectedImages: ArrayList<String> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -49,6 +49,8 @@ class ImageListAdapter(private val context: Context, private val imageList: List
     override fun getItemCount(): Int {
         return imageList.size
     }
+
+    fun getSelectedImages() = selectedImages
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val container: ConstraintLayout = itemView.imageContainer

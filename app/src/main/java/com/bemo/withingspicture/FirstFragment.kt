@@ -18,12 +18,13 @@ import com.bemo.withingspicture.infrastructure.PictureView
 import com.bemo.withingspicture.infrastructure.PictureViewModel
 import com.bemo.withingspicture.interactor.PictureInteractor
 import com.bemo.withingspicture.repository.PictureRepository
+import kotlinx.android.synthetic.main.content_main.*
 
 class FirstFragment : Fragment(), PictureView {
 
     private var _binding: FragmentFirstBinding? = null
     private var threadManager: CoroutineContextSwitcher = CoroutineContextSwitcher.newInstance()
-    private var imageListAdapter: ImageListAdapter? = null
+    private lateinit var imageListAdapter: ImageListAdapter
     private val controller = PictureController(
         PictureInteractor(
             PictureRepository(),
@@ -70,7 +71,8 @@ class FirstFragment : Fragment(), PictureView {
         binding.imagesRecyclerView.adapter = imageListAdapter
         binding.validateButton.visibility = VISIBLE
         binding.validateButton.setOnClickListener {
-            // go to edit picture screen
+            parentFragmentManager.beginTransaction().addToBackStack(null)
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, SecondFragment.newInstance(imageListAdapter.getSelectedImages())).commit()
         }
         binding.contentViewFlipper.displayedChild = 1
     }
@@ -81,7 +83,8 @@ class FirstFragment : Fragment(), PictureView {
     }
 
     private fun hideKeyBoard() {
-        val iMm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val iMm =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         iMm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
         binding.searchEditText.clearFocus()
     }
